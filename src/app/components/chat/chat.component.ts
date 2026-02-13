@@ -29,6 +29,12 @@ export class ChatComponent implements AfterViewChecked {
         } catch (err) { }
     }
 
+    newChat() {
+        this.messages = [];
+        this.userInput = '';
+        this.isLoading = false;
+    }
+
     sendMessage() {
         if (!this.userInput.trim()) return;
 
