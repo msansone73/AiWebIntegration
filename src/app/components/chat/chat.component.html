@@ -1,7 +1,10 @@
 <div class="chat-container">
   <div class="chat-header">
-    <h2>Ollama AI Chat</h2>
-    <span class="status-indicator" [class.online]="!isLoading" [class.thinking]="isLoading"></span>
+    <div class="header-left">
+      <h2>Ollama AI Chat</h2>
+      <span class="status-indicator" [class.online]="!isLoading" [class.thinking]="isLoading"></span>
+    </div>
+    <button class="new-chat-btn" (click)="newChat()" title="Novo Chat">+ Novo Chat</button>
   </div>
 
   <div class="messages-list" #scrollContainer>
