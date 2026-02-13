@@ -7,12 +7,13 @@
   <div class="messages-list" #scrollContainer>
     <div *ngFor="let msg of messages" class="message-bubble" [ngClass]="msg.role">
       <div class="message-content">
-        <strong *ngIf="msg.role === 'assistant'">Ollama:</strong>
+        <strong *ngIf="msg.role === 'assistant'">Ollama: <span *ngIf="msg.responseTime !== undefined">({{
+            msg.responseTime.toString().padStart(2, '0') }} seg.)</span></strong>
         <strong *ngIf="msg.role === 'user'">Você:</strong>
         <p>{{ msg.content }}</p>
       </div>
     </div>
-    
+
     <div *ngIf="isLoading" class="message-bubble assistant loading">
       <div class="typing-indicator">
         <span></span>
@@ -23,13 +24,8 @@
   </div>
 
   <div class="input-area">
-    <textarea 
-      [(ngModel)]="userInput" 
-      (keydown.enter)="sendMessage(); $event.preventDefault()" 
-      placeholder="Digite sua mensagem..."
-      rows="1"
-      autoResize
-    ></textarea>
+    <textarea [(ngModel)]="userInput" (keydown.enter)="sendMessage(); $event.preventDefault()"
+      placeholder="Digite sua mensagem..." rows="1" autoResize></textarea>
     <button (click)="sendMessage()" [disabled]="isLoading || !userInput.trim()">
       Enviar
     </button>

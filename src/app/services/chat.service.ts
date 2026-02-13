@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 export interface ChatMessage {
     role: 'user' | 'assistant' | 'system';
     content: string;
+    responseTime?: number; // tempo de resposta em segundos
 }
 
 export interface OllamaGenerateResponse {
