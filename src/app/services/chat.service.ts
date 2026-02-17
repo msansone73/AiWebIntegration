@@ -10,12 +10,8 @@ export interface ChatMessage {
     responseTime?: number; // tempo de resposta em segundos
 }
 
-export interface OllamaGenerateResponse {
-    model: string;
-    created_at: string;
-    response: string;
-    done: boolean;
-    context?: number[];
+export interface AiAndreiaResponse {
+    answer: string;
 }
 
 @Injectable({
@@ -33,23 +29,21 @@ export class ChatService {
         return this.requestLog;
     }
 
-    sendMessage(history: ChatMessage[]): Observable<OllamaGenerateResponse> {
-        // api/generate expects a single prompt. 
-        // We construct the prompt from the history to maintain context.
-        const prompt = history.map(msg => `${msg.role}: ${msg.content}`).join('\n') + '\nassistant:';
+    sendMessage(history: ChatMessage[]): Observable<AiAndreiaResponse> {
+        const lastUserMsg = [...history].reverse().find(msg => msg.role === 'user');
+        const question = lastUserMsg ? lastUserMsg.content : '';
 
         const payload = {
             model: this.model,
-            prompt: prompt,
-            stream: false
+            question: question
         };
 
         this.logRequest(payload);
 
-        return this.http.post<OllamaGenerateResponse>(this.apiUrl, payload).pipe(
+        return this.http.post<AiAndreiaResponse>(this.apiUrl, payload).pipe(
             timeout(this.timeoutMs),
             catchError(error => {
-                console.error('Error sending message to Ollama:', error);
+                console.error('Error sending message to AI Andreia:', error);
                 return throwError(() => new Error('Failed to communicate with AI service. Check connection or timeout.'));
             })
         );

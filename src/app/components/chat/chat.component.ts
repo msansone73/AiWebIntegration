@@ -48,7 +48,7 @@ export class ChatComponent implements AfterViewChecked {
         this.chatService.sendMessage(this.messages).subscribe({
             next: (response) => {
                 const elapsedSeconds = Math.round((Date.now() - startTime) / 1000);
-                const aiMsg: ChatMessage = { role: 'assistant', content: response.response, responseTime: elapsedSeconds };
+                const aiMsg: ChatMessage = { role: 'assistant', content: response.answer, responseTime: elapsedSeconds };
                 this.messages.push(aiMsg);
                 this.isLoading = false;
                 this.cdr.detectChanges(); // Force update
